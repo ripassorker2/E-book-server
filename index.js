@@ -46,7 +46,20 @@ async function run() {
       res.send(result);
     });
 
-   
+    app.put("/book/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: ObjectId(id) };
+      const data = req.body;
+      const updateDoc = {
+        $set: data,
+      };
+      const result = await booksCollection.updateOne(filter, updateDoc);
+      res.send(result);
+    });
+
+    // <<------------ books route end---------------->>//
+  
+
   } finally {
   }
 }
