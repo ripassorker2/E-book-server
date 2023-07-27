@@ -57,6 +57,25 @@ async function run() {
       res.send(result);
     });
 
+    // < < ..................Create Review ............ >>
+    
+    app.put("/review/:id", async (req, res) => {
+      const review =req.body
+      const id =req.params.id
+      const filter = { _id: ObjectId(id) };
+      const options = { upsert: true };
+      const result = await booksCollection.updateOne(
+        filter,
+        {
+          $push: {
+            reviews: review,
+          },
+        },
+        options
+      );
+      res.send(result);
+    });
+
     // <<------------ books route end---------------->>//
     // <<------------ user route start---------------->>//
 
