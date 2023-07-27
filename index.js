@@ -58,7 +58,18 @@ async function run() {
     });
 
     // <<------------ books route end---------------->>//
-  
+    // <<------------ user route start---------------->>//
+
+    app.get("/user/:email", async (req, res) => {
+      const email = req.params.email;
+      const result = await userCollection.findOne({email});
+      res.send(result);
+    });
+    app.post("/user", async (req, res) => {
+      const user = req.body;
+      const result = await userCollection.insertOne(user);
+      res.send(result);
+    });
 
   } finally {
   }
