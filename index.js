@@ -23,11 +23,15 @@ async function run() {
     const userCollection = client.db("practiceDB").collection("usersCol");
 
     //<<------------ books route start---------------->>//
+
     app.get("/books", async (req, res) => {
-      const result = await booksCollection.find({}).sort({ $natural: -1 }).toArray();
+      const result = await booksCollection
+        .find({})
+        .sort({ $natural: -1 })
+        .toArray();
       res.send(result);
     });
-  
+
     app.get("/book/:id", async (req, res) => {
       const id = req.params.id;
       const filter = { _id: ObjectId(id) };
@@ -58,10 +62,10 @@ async function run() {
     });
 
     // < < ..................Create Review ............ >>
-    
+
     app.put("/review/:id", async (req, res) => {
-      const review =req.body
-      const id =req.params.id
+      const review = req.body;
+      const id = req.params.id;
       const filter = { _id: ObjectId(id) };
       const options = { upsert: true };
       const result = await booksCollection.updateOne(
@@ -81,7 +85,7 @@ async function run() {
 
     app.get("/user/:email", async (req, res) => {
       const email = req.params.email;
-      const result = await userCollection.findOne({email});
+      const result = await userCollection.findOne({ email });
       res.send(result);
     });
     app.post("/user", async (req, res) => {
@@ -89,7 +93,6 @@ async function run() {
       const result = await userCollection.insertOne(user);
       res.send(result);
     });
-
   } finally {
   }
 }
